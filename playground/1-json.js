@@ -1,3 +1,4 @@
+
 const fs = require('fs')
 
 const book = {
@@ -23,3 +24,18 @@ const dataBuffer = fs.readFileSync('1-json.json')
 // console.log(dataBuffer)
 console.log(dataBuffer.toString())
 //use JSON.parse() to parse the data
+
+
+/*
+Assignment
+
+const fs = require('fs')
+
+const jsonStr = fs.readFileSync('1-json.json').toString()
+const obj = JSON.parse(jsonStr)
+obj.name = 'Azar'
+obj.planet = 'Mars'
+obj.age = 30
+
+fs.writeFileSync('1-json.json',JSON.stringify(obj))
+*/

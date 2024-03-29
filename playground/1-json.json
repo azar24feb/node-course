@@ -1,1 +1,5 @@
-{"title":"A Song of Ice and Fire","author":"George R. R. Martin"}
+{
+    "name": "Azar",
+    "planet": "Mars",
+    "age": 30
+}
