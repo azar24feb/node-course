@@ -27,8 +27,6 @@ console.log(dataBuffer.toString())
 
 
 /*
-Assignment
-
 const fs = require('fs')
 
 const jsonStr = fs.readFileSync('1-json.json').toString()
@@ -36,6 +34,7 @@ const obj = JSON.parse(jsonStr)
 obj.name = 'Azar'
 obj.planet = 'Mars'
 obj.age = 30
+// obj.color1 = 'White'
 
 fs.writeFileSync('1-json.json',JSON.stringify(obj))
 */
