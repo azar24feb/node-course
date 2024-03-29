@@ -1,4 +1,5 @@
 const yargs = require('yargs')
+const fs = require('fs')
 
 //customize yargs version
 yargs.version('1.1.0')
@@ -9,6 +10,7 @@ yargs.version('1.1.0')
 yargs.command({
     command: 'add',
     describe: 'Add a new note',
+    //options for our add command, --title, --body
     builder: {
         title: {
             describe: 'Note Title',
@@ -16,7 +18,7 @@ yargs.command({
             type: 'string'
         },
         body: {
-            describe: 'Body of the note',
+            describe: 'Note Body',
             demandOption: true,
             type: 'string'
         }
