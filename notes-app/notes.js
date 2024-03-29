@@ -11,6 +11,10 @@ const addNote = (title, body) => {
     const duplicateNotes = notes.filter(note => note.title === title)
     //find checks for the first match, hence better performance | this can be used to improve the code
     const duplicateNote = notes.find(note => note.title === title)
+    /*
+    if (!duplicateNote) add
+    else title taken
+    */
 
     //if title already exists, it will populate inside duplicateNotes array
     if (duplicateNotes.length === 0) {
@@ -60,13 +64,14 @@ const listNotes = () => {
 }
 
 const readNote = (title) => {
-    console.log('in read')
     const notes = loadNotes()
-    const note = notes.filter(x => x.title === title)
-    if (note.length === 0){
-        console.log(chalk.red('No Notes Found!'))
+    const note = notes.find(x => x.title === title)
+    //undefined is false in if condition
+    if (note){
+        console.log(chalk.bold.inverse(note.title))
+        console.log(note.body)
     } else {
-        console.log(note[0].body)
+        console.log(chalk.red.inverse('No Notes Found!'))
     }
 }
 
