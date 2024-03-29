@@ -1,20 +1,21 @@
 
+const { default: chalk } = require('chalk')
 const fs = require('fs')
 
-const getNotes = function(){
+const getNotes = function () {
     return 'Your Notes...'
 }
 
-const addNote = function(title, body) {
+const addNote = function (title, body) {
     const notes = loadNotes()
 
     //filter will return notes with same title as input
-    const duplicateNotes = notes.filter(function(note){
+    const duplicateNotes = notes.filter(function (note) {
         return note.title === title
     })
 
     //if title already exists, it will populate inside duplicateNotes array
-    if (duplicateNotes.length === 0){
+    if (duplicateNotes.length === 0) {
         notes.push({
             title: title,
             body: body
@@ -22,17 +23,27 @@ const addNote = function(title, body) {
         saveNotes(notes)
         console.log('New note is added!')
     } else {
-        console.log('Note title is already taken!')
-    }    
+        console.log(chalk.red('Note title is already taken!'))
+    }
 }
 
-const removeNote = function() {
-    
+const removeNote = function (title) {
+    const notes = loadNotes()
+    const notesToKeep = notes.filter(function (note) {
+        return note.title !== title
+    })
+    if (notes.length === notesToKeep.length) {
+        console.log(chalk.bgRed('No Notes found!'))
+    } else {
+        saveNotes(notesToKeep)
+        console.log(chalk.bgGreen(('Note removed : ' + title)))
+    }
+
 }
 
-const saveNotes = function(notes) {
+const saveNotes = function (notes) {
     const dataJSON = JSON.stringify(notes)
-    fs.writeFileSync('notes.json',dataJSON)
+    fs.writeFileSync('notes.json', dataJSON)
 }
 
 const loadNotes = function () {
@@ -42,10 +53,12 @@ const loadNotes = function () {
     } catch (e) {
         return []
     }
-    
+
 }
 
+//Export the methods outside
 module.exports = {
     getNotes: getNotes,
-    addNote: addNote
+    addNote: addNote,
+    removeNote: removeNote
 }
