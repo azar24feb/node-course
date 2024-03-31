@@ -1,0 +1,45 @@
+{
+    "statusCode": 200,
+    "body": {
+        "success": false,
+        "error": {
+            "code": 102,
+            "info": "Permission denied - User not active."
+        }
+    },
+    "headers": {
+        "date": "Sun, 31 Mar 2024 06:54:23 GMT",
+        "content-type": "application/json; Charset=UTF-8",
+        "transfer-encoding": "chunked",
+        "connection": "close",
+        "cache-control": "no-cache",
+        "access-control-allow-methods": "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS",
+        "access-control-allow-origin": "*",
+        "x-blocked-at-loadbalancer": "1",
+        "cf-cache-status": "DYNAMIC",
+        "report-to": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v4?s=15ulCdKVj3a1U4mZvdjahuLCi3Sq3teNbKUR0G69O2XNb7vwtOoktTDY7cW1fzwbFSQ5oRfGZVCoXJc5ZFcj5hfJtFRWUm7pd45XfeHRk4nOAIEYinvIgT%2FfsmnylBy42LtPBqcs\"}],\"group\":\"cf-nel\",\"max_age\":604800}",
+        "nel": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}",
+        "server": "cloudflare",
+        "cf-ray": "86ce6d845beb1da5-BLR"
+    },
+    "request": {
+        "uri": {
+            "protocol": "http:",
+            "slashes": true,
+            "auth": null,
+            "host": "api.weatherstack.com",
+            "port": 80,
+            "hostname": "api.weatherstack.com",
+            "hash": null,
+            "search": "?access_key=032d91a0571712f5f457ede507b4a970&query=Bangalore",
+            "query": "access_key=032d91a0571712f5f457ede507b4a970&query=Bangalore",
+            "pathname": "/current",
+            "path": "/current?access_key=032d91a0571712f5f457ede507b4a970&query=Bangalore",
+            "href": "http://api.weatherstack.com/current?access_key=032d91a0571712f5f457ede507b4a970&query=Bangalore"
+        },
+        "method": "GET",
+        "headers": {
+            "accept": "application/json"
+        }
+    }
+}

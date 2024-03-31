@@ -1,0 +1,49 @@
+Node is asynchronous and non-blocking
+
+in synchronous code, one line runs after another, regarless how long one line takes
+
+setTimeout(() => {
+    
+}, t)
+this method takes two params, it basically says run the function after t ms
+
+***************************************************
+setTimeout(() => {
+    console.log('0 sectimer!')
+}, 0)
+
+console.log('Starting!!!')
+
+setTimeout(() => {
+    console.log('2 sec timer!')
+}, 2000)
+
+console.log('Stopping!!!')
+
+the output of the above code is 
+Starting!!!
+Stopping!!!
+0 sectimer!
+<wait 2 sec>
+2 sec timer!
+
+**********************************************************
+why does the 0 sec delay run after start and Stop
+why does 2 sec delay doesn't stop the program
+
+Call Stack
+Callback Queue
+Event Loop
+
+******************************************************
+032d91a0571712f5f457ede507b4a970
+
+http://api.weatherstack.com/current?access_key=032d91a0571712f5f457ede507b4a970&query=Bangalore
+
+//
+{"request":{"type":"City","query":"Bangalore, India","language":"en","unit":"m"},"location":{"name":"Bangalore","country":"India","region":"Karnataka","lat":"12.983","lon":"77.583","timezone_id":"Asia\/Kolkata","localtime":"2024-03-30 14:05","localtime_epoch":1711807500,"utc_offset":"5.50"},"current":{"observation_time":"08:35 AM","temperature":35,"weather_code":116,"weather_icons":["https:\/\/cdn.worldweatheronline.com\/images\/wsymbols01_png_64\/wsymbol_0002_sunny_intervals.png"],"weather_descriptions":["Partly cloudy"],"wind_speed":22,"wind_degree":100,"wind_dir":"E","pressure":1016,"precip":0,"humidity":30,"cloudcover":25,"feelslike":33,"uv_index":9,"visibility":6,"is_day":"yes"}}
+//
+
+************************
+a7f3f6a2309c153546b33c803752f824
+https://api.openweathermap.org/data/3.0/onecall?lat=12.97&lon=77.59&appid=a7f3f6a2309c153546b33c803752f824

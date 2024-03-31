@@ -1,0 +1,41 @@
+{
+    "request": {
+        "type": "City",
+        "query": "Bangalore, India",
+        "language": "en",
+        "unit": "m"
+    },
+    "location": {
+        "name": "Bangalore",
+        "country": "India",
+        "region": "Karnataka",
+        "lat": "12.983",
+        "lon": "77.583",
+        "timezone_id": "Asia\/Kolkata",
+        "localtime": "2024-03-30 14:05",
+        "localtime_epoch": 1711807500,
+        "utc_offset": "5.50"
+    },
+    "current": {
+        "observation_time": "08:35 AM",
+        "temperature": 35,
+        "weather_code": 116,
+        "weather_icons": [
+            "https:\/\/cdn.worldweatheronline.com\/images\/wsymbols01_png_64\/wsymbol_0002_sunny_intervals.png"
+        ],
+        "weather_descriptions": [
+            "Partly cloudy"
+        ],
+        "wind_speed": 22,
+        "wind_degree": 100,
+        "wind_dir": "E",
+        "pressure": 1016,
+        "precip": 0,
+        "humidity": 30,
+        "cloudcover": 25,
+        "feelslike": 33,
+        "uv_index": 9,
+        "visibility": 6,
+        "is_day": "yes"
+    }
+}
