@@ -15,6 +15,10 @@ const forecast = (lat, long, callback) => {
      
 }
 
+request({url:'url', json:true}, (error, {body, header} = {}) => { //destructuring the response object and using DEFAULT empty object 
+    return 
+})
+
 module.exports = {
     forecast: forecast
 }
