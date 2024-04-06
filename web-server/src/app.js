@@ -34,14 +34,6 @@ app.get('/about', (req, res) => {
     })
 })
 
-app.get('/weather', (req, res) => {
-    res.send({
-        location: 'Bangalore',
-        forecast: 'It is currently 35 degrees!!'
-
-    })
-})
-
 app.get('/help', (req, res) => {
     res.render('help', {
         title: 'Help Page!!',
@@ -50,8 +42,33 @@ app.get('/help', (req, res) => {
     })
 })
 
+app.get('/weather', (req, res) => {
+    res.send({
+        location: 'Bangalore',
+        forecast: 'It is currently 35 degrees!!'
+
+    })
+})
+
+app.get('/products', (req, res) => {
+    const q = req.query
+    if (!q.search) {
+        return res.send({
+            error: 'Must provide search term!'
+        })
+    }
+    res.send({
+        products: []
+    })
+})
+
 app.get('*', (req, res) => {
-    res.send('My 404 Page!!')
+    // res.send('My 404 Page!!')
+    res.render('error404', {
+        title: 'Error 404!',
+        name: 'Azar Uddin',
+        errorMessage: 'Page not Found!!'
+    })
 })
 
 app.listen(3000, () => {
