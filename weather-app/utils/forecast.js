@@ -1,4 +1,5 @@
 const request = require("request")
+const fs = require('fs')
 
 const forecast = (lat, long, callback) => {
     const url = 'myurl'
