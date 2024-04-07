@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
+const { geoCode } = require('./utils/geoCode')
 
 const app = express()
 
@@ -51,14 +52,18 @@ app.get('/weather', (req, res) => {
 })
 
 app.get('/products', (req, res) => {
-    const q = req.query
-    if (!q.search) {
-        return res.send({
-            error: 'Must provide search term!'
-        })
-    }
-    res.send({
-        products: []
+    const q = req.query // req.query has the query params
+    // if (!q.search) {
+    //     return res.send({
+    //         error: 'Must provide search term!'
+    //     })
+    // }
+    console.log(req)
+    geoCode(q.search, (error, { data } = {}) => { // the {data} is object destructuring, meaning response.data || = {} means empty object is default
+        if (!error) {
+            // data.input = req.query
+            res.send(data) // the {data} is using the short syntax, meaning data:data
+        }
     })
 })
 
