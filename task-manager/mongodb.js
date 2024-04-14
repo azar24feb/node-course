@@ -79,7 +79,7 @@ MongoClient.connect(conUrl, { useNewUrlParser: true }, (error, client) => {
 
         console.log(result)
     })
-    */
+    
 
     //find returns a cursor || https://mongodb.github.io/node-mongodb-native/6.5/classes/FindCursor.html
     db.collection('users').find({ name: 'Arif' }).toArray((error, result) => {
@@ -88,4 +88,9 @@ MongoClient.connect(conUrl, { useNewUrlParser: true }, (error, client) => {
         }
         console.log(result)
     })
+    */
+
+    // UPDATE -- updateOne, updateMany
+    // https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#updateMany
+
 })

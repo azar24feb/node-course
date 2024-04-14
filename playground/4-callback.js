@@ -1,3 +1,4 @@
+
 setTimeout(() => {
     console.log('2 sec up!')
 }, 2000)
