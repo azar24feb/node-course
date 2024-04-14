@@ -47,3 +47,43 @@ http://api.weatherstack.com/current?access_key=&query=Bangalore
 ************************
 
 https://api.openweathermap.org/data/3.0/onecall?lat=12.97&lon=77.59&appid=
+
+
+
+????????????????????????????????????????????
+++++++++++++++++++++++++++++++++++++++++++++
+
+Mongo DB install
+
+run cmd in mongodb bin folder
+mongo --dbpath=C:/data/mongo
+mongodb://localhost:27017
+localhost:27017
+
+mongodb native driver
+
+https://www.npmjs.com/package/mongodb
+https://www.mongodb.com/docs/drivers/node/current/
+
+when data in inserted in collection, _id is automatically assigned,
+
+
+db.collection('users').insertMany([ // can also use insertOne
+        {
+            name: 'Shomi',
+            age: 25
+        }, {
+            name: 'Arif',
+            age: 13
+        }
+    ], (error, result) => {
+        if (error) {
+            return console.log('Unable to insert Users!!')
+        }
+
+        console.log(result.ops)
+    })
+
+***** ID features, see the parts of object 
+https://www.mongodb.com/docs/manual/reference/method/ObjectId/
+console.log(id.getTimestamp)

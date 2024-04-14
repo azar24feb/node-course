@@ -58,7 +58,6 @@ app.get('/products', (req, res) => {
     //         error: 'Must provide search term!'
     //     })
     // }
-    console.log(req)
     geoCode(q.search, (error, { data } = {}) => { // the {data} is object destructuring, meaning response.data || = {} means empty object is default
         if (!error) {
             // data.input = req.query
