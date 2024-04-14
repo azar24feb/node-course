@@ -10,8 +10,8 @@ const dbName = 'taskmanger'
 const id = new ObjectID() //this id can be used in a document
 console.log(id.getTimestamp())
 console.log(id.id) //<Buffer 66 1b 8f dc b2 2d 36 1e 9c c8 ba e2>
- // id is a binary value, id.id gives the raw binary value, it is used to reduce the size of the id
- //id.id.length is 12, toHexString will convert it to 24 bit string
+// id is a binary value, id.id gives the raw binary value, it is used to reduce the size of the id
+//id.id.length is 12, toHexString will convert it to 24 bit string
 
 MongoClient.connect(conUrl, { useNewUrlParser: true }, (error, client) => {
     if (error) {
@@ -20,17 +20,6 @@ MongoClient.connect(conUrl, { useNewUrlParser: true }, (error, client) => {
 
     console.log('Connected to DB Successfully!!')
     const db = client.db(dbName)
-
-    db.collection('users').insertOne({
-        name: 'Parhina',
-        age: 28
-    }, (error, result) => {
-         if (error){
-            return console.log('Unable to insert user')
-         }
-
-         console.log(result.ops) // array of documents
-    })
 
     /*
     //insert one data
@@ -81,5 +70,22 @@ MongoClient.connect(conUrl, { useNewUrlParser: true }, (error, client) => {
     })
     */
 
+    /*
+    //find one doc, it returns the first match, else result is null
+    db.collection('users').findOne({name:'Shomi', age:26},(error, result) => {
+        if (error){
+            return console.log('Unable to find user : ' + error)
+        } 
 
+        console.log(result)
+    })
+    */
+
+    //find returns a cursor || https://mongodb.github.io/node-mongodb-native/6.5/classes/FindCursor.html
+    db.collection('users').find({ name: 'Arif' }).toArray((error, result) => {
+        if (error) {
+            return console.log('Unable to find user : ' + error)
+        }
+        console.log(result)
+    })
 })
