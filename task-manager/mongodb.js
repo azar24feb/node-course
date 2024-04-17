@@ -1,3 +1,4 @@
+//for working with mongodb, use the very useful mongoose
 
 // const mongo = require('mongodb')
 // const MongoClient = mongo.MongoClient
@@ -92,5 +93,22 @@ MongoClient.connect(conUrl, { useNewUrlParser: true }, (error, client) => {
 
     // UPDATE -- updateOne, updateMany
     // https://mongodb.github.io/node-mongodb-native/3.1/api/Collection.html#updateMany
+    // **** https://www.mongodb.com/docs/manual/reference/operator/update/ - update operators
+    /**
+     * db.collection().updateOne({search},{update},callback) - if callback is not provided, it returns a Promise
+     */
+    db.collection('users').updateOne({
+        _id: new ObjectID('661bee101f3a1a13c832d762')
+    }, {
+        $set: {
+            name: 'Azar'
+        }
+    }).then((result) => {
+        console.log(result) 
+    })
+    .catch((error) => {
+        console.log(error) 
+    })
 
+    //DELETE - deleteOne, deleteMany same as update
 })
