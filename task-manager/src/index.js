@@ -10,7 +10,11 @@ app.use(express.json()) //required for json body requests from postman
 app.post('/users', (req, res) => {
     const user = new User(req.body)
     console.log(user)
-    res.send('')
+    user.save().then((result) => {
+         res.send(result._id)
+    }).catch((error) => {
+        res.send(error.message) 
+    })
 })
 
 app.listen(port, () => {
