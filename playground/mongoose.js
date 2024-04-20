@@ -49,6 +49,7 @@ const User = mongoose.model('User', {
     }
 })
 
+// NOTE : if any extra field is provided in the input, which is not present in model, it will not throw error, it will be just ignored
 const me = new User({
     name: 'Raisa',
     age: 12,

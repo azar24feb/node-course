@@ -8,10 +8,10 @@ const doWorkCallback = (callback) => {
 }
 
 doWorkCallback((error, result) => {
-     if(error){
+    if (error) {
         return console.log(error)
-     }
-     console.log(result)
+    }
+    console.log(result)
 })
 
 
@@ -34,7 +34,42 @@ const doWorkPromise = new Promise((resolve, reject) => {
 //then calls the resolve method, i.e when it is success
 //catch calls the reject method, i.e when it is error
 doWorkPromise.then((result) => {
-    console.log(result) 
+    console.log(result)
 }).catch((error) => {
-     console.log(error)
+    console.log(error)
+})
+
+/** 888888888888888888888888888888888888888888888888888888888888
+ * PROMISE CHAINING
+ */
+
+const add = (a, b) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(a + b)
+        }, 1500)
+    })
+}
+
+// This is nested Promise 
+add(5, 6).then((sum) => {
+    console.log('Nested Promise: ' + sum)
+
+    add(sum, 10).then((sum2) => {
+        console.log('Nested Promise: ' + sum2)
+    }).catch((err) => {
+        console.log(err)
+    })
+}).catch((err) => {
+    console.log(err)
+})
+
+//Promise chaining
+add(5, 6).then((sum) => {
+    console.log('Promise Chaining: ' + sum)
+    return add(sum, 10) // this is returning a promise
+}).then((sum2) => {
+    console.log('Promise Chaining: ' + sum2)
+}).catch((err) => {
+    console.log(err)
 })
