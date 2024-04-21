@@ -87,3 +87,16 @@ db.collection('users').insertMany([ // can also use insertOne
 ***** ID features, see the parts of object 
 https://www.mongodb.com/docs/manual/reference/method/ObjectId/
 console.log(id.getTimestamp)
+
+================================================================
+
+in package.json > 
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  }
+
+then you can run > npm run dev --> this will run command mentioned in dev
+
+=============================================================== 

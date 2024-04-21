@@ -1,3 +1,7 @@
+/**
+ * useful links - https://mongoosejs.com/docs/api/model.html
+ */
+
 const mongoose = require('mongoose')
 const validator = require('validator')
 

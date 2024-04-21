@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000 // required for Heroku deployment
 app.use(express.json()) //required for json body requests from postman
 
 //Create Users
+/*
 app.post('/users', (req, res) => {
     const user = new User(req.body)
     console.log(user)
@@ -19,6 +20,14 @@ app.post('/users', (req, res) => {
         res.status(400)
             .send(error.message)
     })
+})
+*/
+
+//Create user with async await
+app.post('/users', async (req, res) => {
+    const user = new User(req.body)
+    const u = await user.save()
+    res.status(201).send(u)
 })
 
 //Create Tasks
@@ -58,9 +67,9 @@ app.get('/users/:id', (req, res) => {
 })
 
 //Get All tasks
-app.get('/tasks',(req, res) => {
+app.get('/tasks', (req, res) => {
     Task.find().then((result) => {
-        res.status(200).send(result) 
+        res.status(200).send(result)
     }).catch((err) => {
         res.status(400).send(err)
     })
@@ -70,10 +79,10 @@ app.get('/tasks',(req, res) => {
 app.get('/tasks/:id', (req, res) => {
     const _id = req.params.id
     Task.findById(_id).then((result) => {
-        if (!result){
+        if (!result) {
             return res.status(400).send('Not Found!!')
         }
-        res.status(200).send(result) 
+        res.status(200).send(result)
     }).catch((err) => {
         res.status(500).send(err)
     })
