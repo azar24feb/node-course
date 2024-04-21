@@ -23,11 +23,15 @@ app.post('/users', (req, res) => {
 })
 */
 
-//Create user with async await
+//Create user with async await 
 app.post('/users', async (req, res) => {
     const user = new User(req.body)
-    const u = await user.save()
-    res.status(201).send(u)
+    try {
+        const u = await user.save()
+        res.status(201).send(u)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
 })
 
 //Create Tasks
@@ -86,6 +90,51 @@ app.get('/tasks/:id', (req, res) => {
     }).catch((err) => {
         res.status(500).send(err)
     })
+})
+
+//Updating users
+/*
+if you provide fields which are not present in the model, mongoose will simply ignore those fields. Custom code in needed to throw error
+*/
+app.patch('/users/:id', async (req, res) => {
+    const updates = Object.keys(req.body) // this returns all the properties of the object as an array
+    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const isValidUpdate = updates.every(x => allowedUpdates.includes(x))
+
+    if (!isValidUpdate) {
+        return res.status(400).send('Invalid Update!!')
+    }
+
+    try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+            new: true, // options new:true will return the new updated user || otherwise user before the update is sent
+            runValidators: true // default is false, hence need to provide runValidators
+        })
+
+        if (!user) {
+            return res.status(404).send('Not Found')
+        }
+        res.send(user)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+//update tasks - it can be done in similar manner
+
+//Delete User
+app.delete('/users/:id', async (req, res) => {
+    
+    try {
+        const user = await User.findByIdAndDelete(req.params.id)
+
+        if (!user){
+            return res.status(404).send('Not Found!')
+        }
+        res.send(user)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
 })
 
 app.get('*', (req, res) => {
