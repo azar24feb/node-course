@@ -100,3 +100,18 @@ in package.json >
 then you can run > npm run dev --> this will run command mentioned in dev
 
 =============================================================== 
+Method to hash password
+
+**Encrypt is two way, you can get the original data from the encrypted data
+** hashing is one way, can't get back original data
+
+const bcrypt = require('bcryptjs')
+
+const myFunction = async () => {
+    const pass = 'red123!'
+    const hash = await bcrypt.hash(pass, 8) //number of rounds the hash function works, use 8 for balance betwn speed and security
+
+    console.log(hash) //$2a$08$H1sYhB716d3qkrV.cSIAnOUczz5Gf8F8HIcOvNW9hwWdVEle5BUs.
+    const isMatch = await bcrypt.compare('red123!','$2a$08$H1sYhB716d3qkrV.cSIAnOUczz5Gf8F8HIcOvNW9hwWdVEle5BUs.')
+    console.log(isMatch)
+}

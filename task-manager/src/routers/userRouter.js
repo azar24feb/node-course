@@ -25,7 +25,7 @@ app.post('/users', (req, res) => {
 
 //Create user with async await 
 router.post('/users', async (req, res) => {
-    const user = new User(req.body)
+    const user = new User(req.body)    
     try {
         const u = await user.save()
         res.status(201).send(u)
@@ -75,10 +75,16 @@ router.patch('/users/:id', async (req, res) => {
     }
 
     try {
+        const user = await User.findById(req.params.id)
+        updates.forEach(x => user[x] = req.body[x])
+        await user.save()
+
+        /** this code will not apply the middleware function written on the userSchema
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {
             new: true, // options new:true will return the new updated user || otherwise user before the update is sent
-            runValidators: true // default is false, hence need to provide runValidators
+            runValidators: true, // default is false, hence need to provide runValidators
         })
+         */
 
         if (!user) {
             return res.status(404).send('Not Found')
