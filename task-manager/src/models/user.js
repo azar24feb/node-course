@@ -50,9 +50,8 @@ userSchema.pre('save', async function (next) {
 
     //user.isModified('password') - true when the user is created, and when this field is updated
     if (user.isModified('password')) {
-        var pass = user.password
-        var hashPass = await bcrypt.hash(pass, 8)
-        user.password = hashPass
+        user.password = await bcrypt.hash(user.password, 8)
+        //for testing , password for user Azar is azar123, and so on
     }
 
     next() //Call next after everything is done. if you dont call next, it will hang forever thinking middleware is still working,
