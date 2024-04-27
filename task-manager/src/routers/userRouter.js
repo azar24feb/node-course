@@ -1,12 +1,8 @@
 const express = require('express')
 const User = require('../models/userModel') // user.js and user - both works
+const auth = require('../middleware/auth')
 
 const router = new express.Router()
-
-router.get('/test', (req, res) => {
-    res.send('From new file!!')
-})
-
 
 //Create Users
 /*
@@ -46,8 +42,40 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
+//Logout - this will take the auth token used to login, and invalidate that token, other token used 
+// for other logins (other devices) should not be affected
+router.post('/users/logout', auth, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter(x => x.token !== req.token) //x is an object in "tokens" which has the token property
+        await req.user.save()
+        res.send(req.user.name + ' Logged Out!!')
+    } catch (error) {
+        console.log('error: ' + error)
+        res.status(500).send(error)
+    }
+})
 
-//Get User
+//Logout from all places - delete all tokens
+router.post('/users/logoutAll', auth, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.send(req.user.name + ' Logged Out from all places!!')
+    } catch (error) {
+        console.log('error: ' + error)
+        res.status(500).send(error)
+    }
+})
+
+router.get('/users/me', auth, async (req, res) => {
+    try {
+        res.send(req.user)
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+})
+
+//Get Users - this is useless as no user should be able to pull up details of other users
 router.get('/users', (req, res) => {
     User.find().then((result) => {
         res.send(result)
@@ -57,8 +85,9 @@ router.get('/users', (req, res) => {
     })
 })
 
-// Get User by ID
-router.get('/users/:id', (req, res) => {
+/*
+// Get User by ID - useless as one user should not be able to look up another user
+router.get('/users/:id', auth, (req, res) => {
     //req.query - this gives query params passed as ?key=value&key=value
     const _id = req.params.id
     //for mongoose we do not need to convert the id to ObjectID(id)
@@ -71,6 +100,7 @@ router.get('/users/:id', (req, res) => {
         res.status(500).send(err)
     })
 })
+*/
 
 
 //Updating users
