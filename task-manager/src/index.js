@@ -7,7 +7,7 @@ const app = express()
 const port = process.env.PORT || 3000 // required for Heroku deployment
 
 app.use(express.json()) //required for json body requests from postman
-app.use(userRouter,taskRouter) //register the router from a different file
+app.use(userRouter, taskRouter) //register the router from a different file
 
 app.get('*', (req, res) => {
     res.status(500).send('Page Doesn\'t exist')

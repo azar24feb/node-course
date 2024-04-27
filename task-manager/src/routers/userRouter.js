@@ -1,10 +1,10 @@
 const express = require('express')
-const User = require('../models/user') // user.js and user - both works
+const User = require('../models/userModel') // user.js and user - both works
 
 const router = new express.Router()
 
 router.get('/test', (req, res) => {
-    res.send('From new file!!') 
+    res.send('From new file!!')
 })
 
 
@@ -25,12 +25,24 @@ app.post('/users', (req, res) => {
 
 //Create user with async await 
 router.post('/users', async (req, res) => {
-    const user = new User(req.body)    
+    const user = new User(req.body)
     try {
-        const u = await user.save()
-        res.status(201).send(u)
+        await user.save()
+        const token = await user.generateAuthToken()
+        res.status(201).send({ user, token })
     } catch (error) {
         res.status(400).send(error.message)
+    }
+})
+
+//Login
+router.post('/users/login', async (req, res) => {
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+        const token = await user.generateAuthToken()
+        res.send({ user, token })
+    } catch (e) {
+        res.status(400).send(e.message)
     }
 })
 
