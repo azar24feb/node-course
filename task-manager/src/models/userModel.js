@@ -55,8 +55,16 @@ userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'secret', { expiresIn: '5d' })
     user.tokens = user.tokens.concat({ token })
-    user.save()
+    await user.save()
     return token
+}
+
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject() //plain js object and not a mongoose model
+    delete userObject.password
+    delete userObject.tokens
+    return userObject
 }
 
 //for login function in router || statics is used for method for all instances of User model, like static method in java

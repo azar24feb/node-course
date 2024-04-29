@@ -36,6 +36,7 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
+        // res.send({ user: user.getPublicProfile(), token }) //in userSchema, if you name the method as getPublicProfile, then this code, if you name as toJSON, then "user" will work
         res.send({ user, token })
     } catch (e) {
         res.status(400).send(e.message)
@@ -107,7 +108,8 @@ router.get('/users/:id', auth, (req, res) => {
 /*
 if you provide fields which are not present in the model, mongoose will simply ignore those fields. Custom code in needed to throw error
 */
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/me', async (req, res) => {
+    const user = req.user
     const updates = Object.keys(req.body) // this returns all the properties of the object as an array
     const allowedUpdates = ['name', 'email', 'password', 'age']
     const isValidUpdate = updates.every(x => allowedUpdates.includes(x))
@@ -117,7 +119,7 @@ router.patch('/users/:id', async (req, res) => {
     }
 
     try {
-        const user = await User.findById(req.params.id)
+        // const user = await User.findById(req.params.id) //user is fetched by auth token
         updates.forEach(x => user[x] = req.body[x])
         await user.save()
 
@@ -126,11 +128,7 @@ router.patch('/users/:id', async (req, res) => {
             new: true, // options new:true will return the new updated user || otherwise user before the update is sent
             runValidators: true, // default is false, hence need to provide runValidators
         })
-         */
-
-        if (!user) {
-            return res.status(404).send('Not Found')
-        }
+        */ 
         res.send(user)
     } catch (error) {
         res.status(400).send(error.message)
@@ -140,15 +138,13 @@ router.patch('/users/:id', async (req, res) => {
 //update tasks - it can be done in similar manner
 
 //Delete User
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/me', auth, async (req, res) => {
 
     try {
-        const user = await User.findByIdAndDelete(req.params.id)
-
-        if (!user) {
-            return res.status(404).send('Not Found!')
-        }
-        res.send(user)
+        // const user = await User.findByIdAndDelete(req.params.id) //id from params is taken 'users/:id'
+        // const user = await User.findByIdAndDelete(req.user._id) // alternate is remove()
+        await req.user.remove()
+        res.send(req.user)
     } catch (error) {
         res.status(500).send(error.message)
     }
