@@ -76,7 +76,7 @@ router.get('/users/me', auth, async (req, res) => {
     }
 })
 
-//Get Users - this is useless as no user should be able to pull up details of other users
+//Get All Users - this is useless as no user should be able to pull up details of other users
 router.get('/users', (req, res) => {
     User.find().then((result) => {
         res.send(result)
@@ -109,7 +109,6 @@ router.get('/users/:id', auth, (req, res) => {
 if you provide fields which are not present in the model, mongoose will simply ignore those fields. Custom code in needed to throw error
 */
 router.patch('/users/me', auth, async (req, res) => {
-    console.log(user)
     const updates = Object.keys(req.body) // this returns all the properties of the object as an array
     const allowedUpdates = ['name', 'email', 'password', 'age']
     const isValidUpdate = updates.every(x => allowedUpdates.includes(x))

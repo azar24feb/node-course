@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const Task = require('../models/taskModel')
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -47,6 +48,8 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    timestamps: true
 })
 
 //Note: this is a virtual mapping, this data is not there in DB
@@ -101,10 +104,17 @@ userSchema.pre('save', async function (next) {
     //user.isModified('password') - true when the user is created, and when this field is updated
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
-        //for testing , password for user Azar is azar123, and so on
+        //for testing , password for user Azar is azar.123, and so on
     }
 
     next() //Call next after everything is done. if you dont call next, it will hang forever thinking middleware is still working,
+})
+
+//middleware to delete tasks when user is deleted
+userSchema.pre('remove', async function (next) {
+    const user = this
+    await Task.deleteMany({ userId: user._id })
+    next()
 })
 
 const User = mongoose.model('User', userSchema)
