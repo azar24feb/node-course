@@ -1,9 +1,11 @@
 const express = require('express')
 const Task = require('../models/taskModel')
+const auth = require('../middleware/auth')
 
 const router = new express.Router()
 
 //Create Tasks
+/*
 router.post('/tasks', (req, res) => {
     const task = new Task(req.body)
     task.save().then((result) => {
@@ -13,9 +15,23 @@ router.post('/tasks', (req, res) => {
             .send(error.message)
     })
 })
+*/
+
+router.post('/tasks', auth, async (req, res) => {
+    try {
+        const task = new Task({
+            ...req.body, // spread operator, copies all properties
+            userId: req.user._id
+        })
+        await task.save()
+        res.status(201).send(task)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
 
 //Get All tasks
-router.get('/tasks', (req, res) => {
+router.get('/tasks/all', (req, res) => {
     Task.find().then((result) => {
         res.status(200).send(result)
     }).catch((err) => {
@@ -23,17 +39,32 @@ router.get('/tasks', (req, res) => {
     })
 })
 
+//Get All tasks for authenticated user
+router.get('/tasks', auth, async (req, res) => {
+    try {
+        //the below method is used to get all tasks for the user, for this to work, userSchema.virtual is used and ref is used in Task, check code
+        await req.user.populate('tasks').execPopulate()
+        res.send(req.user.tasks)
+    } catch (error) {
+        res.status(400).send(error)
+    }
+
+})
+
 //Get Task by Id
-router.get('/tasks/:id', (req, res) => {
+router.get('/tasks/:id', auth, async (req, res) => {
     const _id = req.params.id
-    Task.findById(_id).then((result) => {
-        if (!result) {
-            return res.status(400).send('Not Found!!')
+    //need tasks for the authenticated users
+    try {
+        const task = await Task.findOne({ _id, userId: req.user._id })
+
+        if (!task) {
+            return res.status(404).send('Not Found!!')
         }
-        res.status(200).send(result)
-    }).catch((err) => {
-        res.status(500).send(err)
-    })
+        res.send(task)
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 //update tasks

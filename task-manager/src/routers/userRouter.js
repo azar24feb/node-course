@@ -108,8 +108,8 @@ router.get('/users/:id', auth, (req, res) => {
 /*
 if you provide fields which are not present in the model, mongoose will simply ignore those fields. Custom code in needed to throw error
 */
-router.patch('/users/me', async (req, res) => {
-    const user = req.user
+router.patch('/users/me', auth, async (req, res) => {
+    console.log(user)
     const updates = Object.keys(req.body) // this returns all the properties of the object as an array
     const allowedUpdates = ['name', 'email', 'password', 'age']
     const isValidUpdate = updates.every(x => allowedUpdates.includes(x))
@@ -120,6 +120,7 @@ router.patch('/users/me', async (req, res) => {
 
     try {
         // const user = await User.findById(req.params.id) //user is fetched by auth token
+        const user = await req.user
         updates.forEach(x => user[x] = req.body[x])
         await user.save()
 

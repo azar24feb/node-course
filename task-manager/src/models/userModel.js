@@ -49,6 +49,13 @@ const userSchema = new mongoose.Schema({
     }]
 })
 
+//Note: this is a virtual mapping, this data is not there in DB
+userSchema.virtual('tasks', {
+    ref: 'Task', //reference to the model
+    localField: '_id', //mapping field in this table
+    foreignField: 'userId' //mapping field in Task
+})
+
 // this is method for instance, not a static method, and arrow function will not work bcz it will need "this" binding
 //these are called instance methods
 userSchema.methods.generateAuthToken = async function () {
