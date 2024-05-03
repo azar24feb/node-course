@@ -40,12 +40,21 @@ router.get('/tasks/all', (req, res) => {
 })
 
 //Get All tasks for authenticated user
+//use query param GET /tasks?completed=true
+//pagination - limit/skip GET /tasks?limit=10&skip=10
+//Sorting - /tasks?sort=createdAt_asc/desc ||
 router.get('/tasks', auth, async (req, res) => {
     const match = {}
+    const sort = {}
 
     //if query param is provided, then match is populated, else it will fetch all data
     if (req.query.completed){
         match.completed = req.query.completed
+    }
+
+    if(req.query.sort){
+        const parts = req.query.sort.split('_')
+        sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
     }
     try {
         //the below method is used to get all tasks for the user, for this to work, userSchema.virtual is used and ref is used in Task, check code
@@ -59,7 +68,20 @@ router.get('/tasks', auth, async (req, res) => {
 
         await req.user.populate({
             path: 'tasks',
-            match
+            match,
+            options: {
+                /**
+                 * limit is number of records fetched
+                 * skip is number of records skipped from the beginning
+                 * combination of these can be used for pagination,
+                 */
+                limit: parseInt(req.query.limit), //ignored if not provided, or if int not provided
+                skip: parseInt(req.query.skip),
+                // sort: {
+                //     createdAt: 1 // 1 for ascending, -1 for descending
+                // }
+                sort // this is populated above
+            }
         }).execPopulate()
 
         res.send(req.user.tasks)
